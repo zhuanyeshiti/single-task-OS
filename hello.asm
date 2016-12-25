@@ -60,14 +60,18 @@ label_begin:
 	ret
 	bootmessage: db "hello,world!"
 
+[section .s32]
+[bits 32]
 label_seg_code32:
+
 	mov ax,selectorvideo
 	mov gs,ax
-	mov edi,(80*11+79)*2
-	mov ah,0ch
-	mov al,'P'
+	mov edi,(80*10+0)*2
+	mov ah,0Ch
+	mov al,'p'
 	mov [gs:edi],ax
 	jmp $
+	;jmp label_seg_code32
 
 	segcode32len	equ	$-label_seg_code32
 

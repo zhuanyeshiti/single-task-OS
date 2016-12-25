@@ -1,7 +1,7 @@
 %macro descriptor 3
 	dw %2 & 0ffffh
 	dw %1 & 0ffffh
-	db (%1 >> 16) & 0feh
+	db (%1 >> 16) & 0ffh
 	dw ((%2 >> 8) & 0f00h) | (%3 & 0f0ffh)
 	db (%1 >> 24) & 0ffh
 %endmacro
