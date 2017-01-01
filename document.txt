@@ -1,6 +1,6 @@
-cld xunzhizizeng df=0
-std xunzhizijian df=1
-lodsb ;mov [ds:si],al
+cld xunzhizizeng shezhi: df=0
+std shezhi: df=1
+lodsb ;mov al,[ds:si] ;then si ++ or -- depending on df.
 stosb,stosw,stosd ;jiang al,ax,eax de zhi cun chu dao [edi] suo zhi xiang de nei cun dan yuan. edi gen ju df zi jia huo zi jian.
 
 nasm -f elf -o tst.o tst.asm

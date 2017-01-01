@@ -27,9 +27,9 @@ align 32
 [bits 32]
 label_data:
 	spvalueinrealmode	dw	0
-	pmmessage:	db	"in protected mode now!"
+	pmmessage:	db	"in protected mode now!",0
 	offsetpmmessage	equ	pmmessage - $$
-	strtest:	db	"abcd string test abcd!"
+	strtest:	db	"abcd string test abcd!",0
 	offsetstrtest	equ	strtest - $$
 	datalen		equ	$ - label_data
 
@@ -37,7 +37,7 @@ label_data:
 align 32
 [bits 32]
 label_stack:
-	times 100 db 0
+	times 10 db 0
 	topofstack	equ	$ - label_stack
 
 [section .s16]
@@ -58,8 +58,8 @@ label_begin:
 	add eax,label_data
 	mov word [label_desc_data+2],ax
 	shr eax,16
-	mov word [label_desc_data+4],al
-	mov word [label_desc_data+7],ah
+	mov byte [label_desc_data+4],al
+	mov byte [label_desc_data+7],ah
 
 	xor eax,eax
 	mov ax,ss
@@ -67,8 +67,8 @@ label_begin:
 	add eax,label_stack
 	mov word [label_desc_stack+2],ax
 	shr eax,16
-	mov word [label_desc_stack+4],al
-	mov word [label_desc_stack+7],ah
+	mov byte [label_desc_stack+4],al
+	mov byte [label_desc_stack+7],ah
 
 	xor eax,eax
 	mov ax,cs
@@ -124,10 +124,22 @@ label_seg_code32:
 
 	mov edi,(80*10+0)*2
 	mov ah,0Ch
-	mov al,'p'
+	xor esi,esi
+	xor edi,edi
+;	mov al,'p'
+	mov esi,offsetpmmessage
+	cld
+.1:
+	lodsb
+	test al,al
+	jz .2
 	mov [gs:edi],ax
+;	jmp $
+;	jmp label_seg_code32
+	add edi,2
+	jmp .1
+.2:
 	jmp $
-	;jmp label_seg_code32
 
 	segcode32len	equ	$-label_seg_code32
 
