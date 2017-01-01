@@ -1,0 +1,9 @@
+cld xunzhizizeng df=0
+std xunzhizijian df=1
+lodsb ;mov [ds:si],al
+stosb,stosw,stosd ;jiang al,ax,eax de zhi cun chu dao [edi] suo zhi xiang de nei cun dan yuan. edi gen ju df zi jia huo zi jian.
+
+nasm -f elf -o tst.o tst.asm
+ld -melf_i386 -s -o tst.bin tst.o
+
+movsb ;mov [es:di],[ds:si] ;df=0 si,di ++ ;df=1 si,di --
